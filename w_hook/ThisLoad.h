@@ -1,5 +1,6 @@
 #include<windows.h>
+#include<iostream>
 //获取进程pid
-DWORD getPid(const char* name);
+DWORD findPid(const char* name);
 //加载dll
 BOOL loadDll(DWORD dwProcessId, const char* pathName);
