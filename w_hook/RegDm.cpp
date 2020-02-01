@@ -2,6 +2,10 @@
 #include "RegDm.h"
 #include<iostream>
 #include"ThisLoad.h"
+#include <direct.h>
+#include "DnplayerOperate.h"
+#include"EXECmd.h"
+
 
 Idmsoft* InitNewDm();
 
@@ -13,7 +17,8 @@ Idmsoft* init() {
 	 if (m_dm != NULL) {
 		 DWORD dw = m_dm->Reg();
 		 if (dw == 1) {
-			
+
+			 m_dm->SetPath("E:\img");
 			 return m_dm;
 		 }
 	 }
@@ -21,8 +26,8 @@ Idmsoft* init() {
 }
 
 
-void bindWindow(Idmsoft* m_dm, int hwnd) {
-	long bindResult =m_dm->BindWindow(hwnd, "gdi", "windows", "windows", 0);
+void bindWindow(Idmsoft* m_dm, int hwnd,int index) {
+	long bindResult =m_dm->BindWindowEx(hwnd, "dx.graphic.opengl", "windows", "windows","", 0);
 	if (!bindResult) {
 		::MessageBox(NULL, L"绑定失败", _T("error"), MB_OK);
 			return;
@@ -33,6 +38,14 @@ void bindWindow(Idmsoft* m_dm, int hwnd) {
 	m_dm->EnableRealMouse(2, 20, 30);
 	//键盘动作模拟真实操作,点击延时随机.
 	m_dm->EnableRealKeypad(1);
+	//启动ssr
+	runCmdRunApp(DnplayerOperate::getInstance().runApp(index,"in.zhaoj.shadowsocksr"));
+
+
+	VARIANT intX, intY;
+	long dm_ret =m_dm->FindPic(904, 62, 930, 82, "text1.bmp", "203040", 0.9, 0, &intX, &intY);
+	//m_dm->MoveTo(intX, intY);
+	//m_dm->LeftClick();
 
 }
 

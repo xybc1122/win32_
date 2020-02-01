@@ -9,7 +9,11 @@
 #include<vector>
 #include "StringUtils.h"
 #include<string>
+#include"DnplayerOperate.h"
 
+std::wstring lodPath = string2wstring(DnplayerOperate::getInstance().path);
+
+void exeShellExecute(std::wstring lodPath, std::wstring exeCmd);
 std::string runCmdRet(std::wstring cmd) {
 	CHCmdParam cmdParam;
 	CCmdHandler cmdHandler;
@@ -38,14 +42,31 @@ std::string runCmdRet(std::wstring cmd) {
 	return cmdHandler.m_szPipeOut;
 }
 
-void runCmd(int size, std::wstring path, std::wstring cmd) {
-	for (unsigned int i = 0; i < size;i++) {
+
+void runCmdEmulator(int size) {
+	for (int i = 0; i < size;i++) {
 		//Æ´½Ócmd ÃüÁî
-		std::wstring exeCmd= cmd +std::to_wstring(i);
-		DWORD ret = (DWORD)ShellExecute(NULL, L"open", (LPCWSTR)path.c_str(), exeCmd.c_str(), NULL, SW_HIDE);
-		if (ret <= 32) {
-			::MessageBox(NULL, L"Æô¶¯Ê§°Ü", L"error", MB_OK);
-		}
+		std::wstring exeCmd = DnplayerOperate::getInstance().startDnPlayer(i);
+		exeShellExecute(lodPath, exeCmd);
 	}
 
 }
+
+/**
+Æô¶¯Ö¸¶¨app
+**/
+void runCmdRunApp(std::wstring cmd) {
+	exeShellExecute(lodPath, cmd);
+}
+
+
+
+void exeShellExecute(std::wstring lodPath, std::wstring exeCmd) {
+	DWORD ret = (DWORD)ShellExecute(NULL, L"open", (LPCWSTR)lodPath.c_str(), exeCmd.c_str(), NULL, SW_HIDE);
+	if (ret <= 32) {
+		::MessageBox(NULL, L"Æô¶¯Ê§°Ü", L"error", MB_OK);
+	}
+
+}
+
+

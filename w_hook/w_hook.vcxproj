@@ -156,6 +156,7 @@
     <ClInclude Include="CmdHandler.h" />
     <ClInclude Include="DmOperating.h" />
     <ClInclude Include="Dnplayer.h" />
+    <ClInclude Include="DnplayerOperate.h" />
     <ClInclude Include="EXECmd.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="StringUtils.h" />
@@ -168,6 +169,7 @@
   <ItemGroup>
     <ClCompile Include="CmdHandler.cpp" />
     <ClCompile Include="Dnplayer.cpp" />
+    <ClCompile Include="DnplayerOperate.cpp" />
     <ClCompile Include="EXECmd.cpp" />
     <ClCompile Include="StringUtils.cpp" />
     <ClCompile Include="ThisLoad.cpp" />

@@ -5,6 +5,7 @@
 #include <tlhelp32.h>
 #include <tchar.h>
 #include <atlstr.h>
+
 DWORD findPid(const char* name) {
 	//1创建快照
 	HANDLE  hsnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
@@ -85,27 +86,4 @@ BOOL loadDll(DWORD dwProcessId, const char* pathName) {
 
 	return true;
 
-}
-
-
-bool  runProcess(std::wstring strProcessName)
-{
-	TCHAR tszProcess[64] = { 0 };
-	lstrcpy(tszProcess, (LPCWSTR)strProcessName.c_str());
-	//启动程序
-	SHELLEXECUTEINFO shellInfo;
-	memset(&shellInfo, 0, sizeof(SHELLEXECUTEINFO));
-	shellInfo.cbSize = sizeof(SHELLEXECUTEINFO);
-	shellInfo.fMask = NULL;
-	shellInfo.hwnd = NULL;
-	shellInfo.lpVerb = NULL;
-	shellInfo.lpFile = tszProcess;                      // 执行的程序名(绝对路径)
-	shellInfo.lpParameters = NULL;
-	shellInfo.lpDirectory = NULL;
-	shellInfo.nShow = SW_MINIMIZE;                      //SW_SHOWNORMAL 全屏显示这个程序
-	shellInfo.hInstApp = NULL;
-	printf("程序自动重启中.... \n");
-	ShellExecuteEx(&shellInfo);
-
-	return true;
 }

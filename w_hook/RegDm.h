@@ -3,4 +3,4 @@
 //初始化加载dm
 Idmsoft* init();
 //绑定窗口
-void bindWindow(Idmsoft* m_dm, int hwnd);
+void bindWindow(Idmsoft* m_dm, int hwnd, int index);

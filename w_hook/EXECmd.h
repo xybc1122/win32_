@@ -6,9 +6,12 @@
 std::string runCmdRet(std::wstring cmd);
 
 /**
-通过ShellExecute 执行cmd命令 没有返回值 
-resultStr:分割str 用来判断执行次数
-path:路径 
-cmd:命令 
+执行模拟器
 **/
-void runCmd(int size, std::wstring path, std::wstring cmd);
+void runCmdEmulator(int size);
+
+
+/**
+启动指定app
+**/
+void runCmdRunApp(std::wstring cmd);

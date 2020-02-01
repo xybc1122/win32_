@@ -12,6 +12,7 @@
 #include<vector>
 #include<StringUtils.h>
 #include<Dnplayer.h>
+#include<DnplayerOperate.h>
 
 void hookDll() {
 	//获取当前目录
@@ -58,7 +59,7 @@ INT_PTR CALLBACK Dlgproc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM Arg4) {
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		//查询模拟器列表
-		lodStr = runCmdRet(root + path + L"list2");
+		lodStr = runCmdRet(DnplayerOperate::getInstance().selectList());
 		for (index; index < split(lodStr, "\n").size() - 1; index++) {
 			//初始化加载 存入多窗口对象
 				dmList.push_back(init());
@@ -87,10 +88,10 @@ INT_PTR CALLBACK Dlgproc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM Arg4) {
 			break;
 		case START:
 			//启动模拟器命令
-			runCmd(index, path ,L"launch --index ");
+			runCmdEmulator(index);
 			//查询启动后的模拟器列表参数
 			Sleep(3000);
-			lodStr = runCmdRet(root + path + L"list2");
+			lodStr = runCmdRet(DnplayerOperate::getInstance().selectList());
 			break;
 		case STAER_SCRIPT:
 			if (lodStr =="") {
@@ -110,15 +111,11 @@ INT_PTR CALLBACK Dlgproc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM Arg4) {
 				//存入启动对象
 				dnplayerList.push_back(dnplayer);
 			}
+			for (unsigned int i = 0; i < dmList.size();i++) {
+				//绑定大漠
+				bindWindow(dmList[i], dnplayerList[i]->bindHandle, dnplayerList[i]->index);
+			}	
 			break;
-			//初始化加载大漠对象
-			//Idmsoft* dm = init();
-			//if (dm == NULL) {
-			//	::MessageBox(NULL, L"error", _T("error"), MB_OK);
-			//	break;
-			//}
-			////绑定大漠
-			//bindWindow(dm, 2427326);
 		}	
 		break;
 	}

@@ -6,21 +6,19 @@ class Dnplayer {
 
 public :
 	//绑定窗口句柄
-	int bindHandle;
+	int bindHandle= 0;
 	//标题
-	std::string title;
+	std::string title= "";
 	//索引
-	int index;
+	int index= 0;
 	//顶层窗口句柄
-	int rootHandle;
+	int rootHandle= 0;
 	//进程pid
-	int pid;
+	int pid = 0;
 
 	~Dnplayer() {
 
 	}
-
-
 
 
 
