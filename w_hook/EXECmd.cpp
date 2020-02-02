@@ -11,10 +11,10 @@
 #include<string>
 #include"DnplayerOperate.h"
 
-std::wstring lodPath = string2wstring(DnplayerOperate::getInstance().path);
+std::wstring lodPath = String2wstring(DnplayerOperate::GetInstance().path);
 
-void exeShellExecute(std::wstring lodPath, std::wstring exeCmd);
-std::string runCmdRet(std::wstring cmd) {
+void ExeShellExecute(std::wstring lodPath, std::wstring exeCmd);
+std::string RunCmdRet(std::wstring cmd) {
 	CHCmdParam cmdParam;
 	CCmdHandler cmdHandler;
 	HRESULT cmdResult = S_OK;
@@ -43,11 +43,11 @@ std::string runCmdRet(std::wstring cmd) {
 }
 
 
-void runCmdEmulator(int size) {
+void RunCmdEmulator(int size) {
 	for (int i = 0; i < size;i++) {
 		//拼接cmd 命令
-		std::wstring exeCmd = DnplayerOperate::getInstance().startDnPlayer(i);
-		exeShellExecute(lodPath, exeCmd);
+		std::wstring exeCmd = DnplayerOperate::GetInstance().StartDnPlayer(i);
+		ExeShellExecute(lodPath, exeCmd);
 	}
 
 }
@@ -55,13 +55,13 @@ void runCmdEmulator(int size) {
 /**
 启动指定app
 **/
-void runCmdRunApp(std::wstring cmd) {
-	exeShellExecute(lodPath, cmd);
+void RunCmdRunApp(std::wstring cmd) {
+	ExeShellExecute(lodPath, cmd);
 }
 
 
 
-void exeShellExecute(std::wstring lodPath, std::wstring exeCmd) {
+void ExeShellExecute(std::wstring lodPath, std::wstring exeCmd) {
 	DWORD ret = (DWORD)ShellExecute(NULL, L"open", (LPCWSTR)lodPath.c_str(), exeCmd.c_str(), NULL, SW_HIDE);
 	if (ret <= 32) {
 		::MessageBox(NULL, L"启动失败", L"error", MB_OK);

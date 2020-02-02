@@ -5,7 +5,7 @@ using namespace std;
 
 
 
-vector<string> split(string str, string pattern)
+vector<string> Split(string str, string pattern)
 {
 	string::size_type pos;
 	vector<string> list;
@@ -27,7 +27,7 @@ vector<string> split(string str, string pattern)
 
 
 
-wstring string2wstring(string &str)
+wstring String2wstring(string &str)
 {
 	wstring result;
 	//获取缓冲区大小，并申请空间，缓冲区大小按字符计算  

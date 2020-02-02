@@ -6,7 +6,7 @@
 #include <tchar.h>
 #include <atlstr.h>
 
-DWORD findPid(const char* name) {
+DWORD FindPid(const char* name) {
 	//1创建快照
 	HANDLE  hsnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 	if (hsnapshot == INVALID_HANDLE_VALUE)
@@ -39,7 +39,7 @@ DWORD findPid(const char* name) {
 }
 
 
-BOOL loadDll(DWORD dwProcessId, const char* pathName) {
+BOOL LoadDll(DWORD dwProcessId, const char* pathName) {
 	//1 获取进程句柄
 	HANDLE  hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, dwProcessId);
 	if (hProcess == NULL) {

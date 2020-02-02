@@ -5,7 +5,7 @@ using namespace std;
 
 
 //×Ö·û´®·Ö¸îº¯Êý
-vector<string> split(string str, string pattern);
+vector<string> Split(string str, string pattern);
 
 
-std::wstring string2wstring(string& str);
+std::wstring String2wstring(string& str);
