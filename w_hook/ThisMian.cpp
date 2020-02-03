@@ -13,6 +13,7 @@
 #include<DnplayerOperate.h>
 #include"DmOperate.h"
 #include"InitDm.h"
+#include<ctime>
 
 //void HookDll() {
 //	//获取当前目录
@@ -31,18 +32,13 @@
 //}
 
 
-//static std::wstring root = L"cmd.exe /C ";
-//
-//static std::wstring path = L"E:\\ld\\dnplayer2\\dnconsole.exe ";
 
 
-std::string LODSTR;
+std::vector<string> LODSTRLIST;
 
-std::vector<Idmsoft*> DMLIST;
+//设置大漠操作对象list
+std::vector<DmOperate*> DMOPERATELIST;
 
-
-//加载次数索引
-unsigned int index = 0;
 
 INT_PTR CALLBACK Dlgproc(HWND Arg1, UINT uMsg, WPARAM Arg3, LPARAM Arg4);
 
@@ -57,18 +53,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
 INT_PTR CALLBACK Dlgproc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM Arg4) {
-	
+	//加载次数索引
+	unsigned int bindIndex = 0;
+	unsigned int unIndex = 0;
+	DmOperate* bindDmOper;
+	DmOperate* unDmOper;
+
 	//消息
 	switch (uMsg) {
 	case WM_INITDIALOG:
-		//查询模拟器列表
-		LODSTR = RunCmdRet(DnplayerOperate::GetInstance().SelectList());
-		for (index; index < Split(LODSTR, "\n").size() - 1; index++) {
-				//初始化加载 存入多窗口对象
-			DMLIST.push_back(Init());
-		}
-		//置空
-		LODSTR = "";
 		break;
 		//关闭
 	case WM_CLOSE:
@@ -78,31 +71,60 @@ INT_PTR CALLBACK Dlgproc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM Arg4) {
 		switch (wParam) {
 			//注入
 		case IN_DLL:
-			//HookDll();
-			::MessageBox(NULL, L"功能已关闭", _T("注入dll"), MB_OK);
+			/*HookDll();
+			::MessageBox(NULL, L"功能已关闭", _T("注入dll"), MB_OK);*/
 			break;
 			//卸载
 		case UN_DLL:
 			::MessageBox(NULL, L"功能已关闭", _T("卸载dll"), MB_OK);
 			break;
-
 		case CHECK_GEM:
 			
 			break;
-		case START:
-			//启动模拟器命令
-			RunCmdEmulator(index);
-			//查询启动后的模拟器列表参数
-			Sleep(3000);
-			LODSTR = RunCmdRet(DnplayerOperate::GetInstance().SelectList());
-			break;
-		case STAER_SCRIPT:
-			if (LODSTR =="") {
-				::MessageBox(NULL, L"请先启动模拟器", _T("error"), MB_OK);
+		//获取模拟器信息
+		case GET_DN_INFO:
+			//查询模拟器列表
+			LODSTRLIST=Split(RunCmdRet(DnplayerOperate::GetInstance().SelectList()), "\n");
+			if (LODSTRLIST.size()!=0) {
+				::MessageBox(NULL, L"获取成功", _T("success"), MB_OK);
 				break;
 			}
-			//操作方法
-			DnplayerOperate::GetInstance().PlayerOperate();
+			::MessageBox(NULL, L"获取失败", _T("error"), MB_OK);
+			break;
+		case BIND:
+			if (LODSTRLIST.size()==0) {
+				::MessageBox(NULL, L"请先获取雷电列表参数", _T("error"), MB_OK);
+				break;
+			}
+			// 1全部绑定   2选择绑定			
+			for (bindIndex; bindIndex < LODSTRLIST.size() - 1; bindIndex++) {
+				bindDmOper = new DmOperate(Init(),DnplayerOperate::GetInstance().SetPlayerInfo(LODSTRLIST[bindIndex]));
+				//设置大漠操作对象以及操作的属性
+				DMOPERATELIST.push_back(bindDmOper);
+			}
+			::MessageBox(NULL, L"绑定成功", _T("success"), MB_OK);
+			////启动模拟器命令
+			//RunCmdEmulator(index);
+			////查询启动后的模拟器列表参数
+			//Sleep(3000);
+			//LODSTR = RunCmdRet(DnplayerOperate::GetInstance().SelectList());
+			break;
+		case UN_BIND:
+			if (DMOPERATELIST.size() == 0) {
+				::MessageBox(NULL, L"解绑失败", _T("error"), MB_OK);
+				break;
+			}
+			for (unIndex; unIndex < DMOPERATELIST.size(); unIndex++) {
+				unDmOper = DMOPERATELIST[unIndex];
+				unDmOper->UnWindow();
+			}
+			break;
+		case STAER_SCRIPT:
+	
+
+			break;
+			//开始挂机
+		case ON_HOOK:
 			break;
 		}	
 		break;

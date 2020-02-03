@@ -1,3 +1,4 @@
+#pragma once
 #include<string>
 #include"Dnplayer.h"
 #include<vector>
@@ -9,16 +10,13 @@ class DnplayerOperate {
 private:
 	DnplayerOperate() {}
 
-	//设置模拟器信息
-	vector<Dnplayer*> SetPlayerInfo();
 public:
 	string path = "E:\\ld\\dnplayer2\\dnconsole.exe ";
 
 	static DnplayerOperate& GetInstance();
-
-	//操作方法
-	 void PlayerOperate();
-
+	
+	//设置模拟器信息
+	Dnplayer* SetPlayerInfo(string str);
 
 	//查询列表命令
 	 wstring SelectList();

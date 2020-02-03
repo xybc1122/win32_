@@ -1,3 +1,4 @@
+#pragma once
 #include<windows.h>
 #include<iostream>
 //获取进程pid

@@ -6,7 +6,8 @@ using namespace std;
 
 
 vector<string> Split(string str, string pattern)
-{
+{	
+
 	string::size_type pos;
 	vector<string> list;
 

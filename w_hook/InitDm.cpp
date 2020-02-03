@@ -7,10 +7,9 @@ Idmsoft* Init() {
 	Idmsoft* m_dm = InitNewDm();
 	//Ê×´Î¼ÓÔØ
 	if (m_dm != NULL) {
-		DWORD dw = m_dm->Reg("13515874497648d23424c2efc806842831995228f4f", "hWiqGife5r");
+		DWORD dw = m_dm->Reg();
 		if (dw == 1) {
-
-			m_dm->SetPath("E://img");
+			m_dm->SetPath("E:\\img\\");
 			return m_dm;
 		}
 	}

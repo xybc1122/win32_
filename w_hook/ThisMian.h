@@ -1,9 +1,12 @@
+#pragma once
 #include "resource.h"
 #include<vector>
 #include<string>
+#include"DmOperate.h"
 #import "dm.dll" no_namespace 
 
-//加载模拟器列表 str
-extern std::string LODSTR ;
+//加载模拟器列表信息
+extern std::vector<std::string> LODSTRLIST;
 
-extern std::vector<Idmsoft*> DMLIST ;
+//设置雷电属性list
+extern std::vector<DmOperate*> DMOPERATELIST;
