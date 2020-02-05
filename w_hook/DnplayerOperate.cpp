@@ -1,17 +1,7 @@
 #include"DnplayerOperate.h"
-#include <stdio.h>
 #include<StringUtils.h>
-#include"ThisMian.h"
+#include"RunExe.h"
 
-
-
-//void ThreadOnHook(Dnplayer* player) {
-//		DmOperate* oper = new DmOperate(DMLIST[player->index], player);
-//		oper->BindWindow();
-//		oper->LeftClick(932, 15, 26, 15, 1500);
-//		oper->LeftClick(855, 15, 36, 15, 1500);
-//
-//}
 
 
 DnplayerOperate& DnplayerOperate::GetInstance() {

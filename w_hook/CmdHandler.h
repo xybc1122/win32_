@@ -9,6 +9,8 @@
 
 #include <Windows.h>
 #include<vector>
+#include <tchar.h>
+#include<iostream>
 using namespace std;
 /* buffer的最大长度 */
 #define PIPE_BUFFER_SIZE 1024

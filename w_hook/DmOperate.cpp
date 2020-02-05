@@ -1,12 +1,13 @@
 #include"DmOperate.h"
-#include<ctime>
 #include"Dnplayer.h"
-#include<vector>
-#include"ThisMian.h"
+#include"RunExe.h"
 #include"DnplayerOperate.h"
 #include"ExeCmd.h"
+#include"StringUtils.h"
+
+
 #define Range(min,max)min+rand()%(max-min+1)
-//void ThreadOper(Dnplayer* player);
+
 
 
 DmOperate::DmOperate(Idmsoft* dm, Dnplayer* player){
@@ -41,7 +42,7 @@ void DmOperate::BindWindow() {
 	//键盘动作模拟真实操作,点击延时随机.
 	this->dm->EnableRealKeypad(1);
 	//绑定字库
-	//this->dm->SetDict(0,"");
+	//this->dm->SetDict(0,"test.txt");
 }
 
 //解除绑定
@@ -62,16 +63,62 @@ void DmOperate::GetClientSize(VARIANT* width, VARIANT* height) {
 }
 
 //左键
+void DmOperate::LeftClick(VARIANT x, int x1, VARIANT y, int y1, int sleep) {
+
+	LClick(_ttoi((LPCTSTR)(_bstr_t)x), x1, _ttoi((LPCTSTR)(_bstr_t)y), y1, sleep);
+
+}
 void DmOperate::LeftClick(int x,int x1,int y ,int y1, int sleep) {
-	x = Range(x, x+x1);
-	y = Range(y, y+y1);
+	LClick(x, x1, y, y1, sleep);
+}
+void DmOperate::LeftClick(double x, int x1, double y, int y1, int sleep) {
+	int width = _ttoi((LPCTSTR)(_bstr_t)this->width);
+	int height = _ttoi((LPCTSTR)(_bstr_t)this->height);
+
+	LClick((int)(width * x), x1, (int)(height * y), y1, sleep);
+}
+
+void DmOperate::LClick(int x, int x1, int y, int y1, int sleep) {
+	x = Range(x, x + x1);
+	y = Range(y, y + y1);
 	//移动
 	this->dm->MoveTo(x, y);
 	//左击
 	this->dm->LeftClick();
 
 	Sleep(rand() % sleep + 100);
+
 }
+//左键一直按住
+void DmOperate::LeftDown(int x, int x1, int y, int y1, int sleep) {
+	x = Range(x, x + x1);
+	y = Range(y, y + y1);
+	//移动
+	this->dm->MoveTo(x, y);
+
+	//左击按住
+	this->dm->LeftDown();
+
+	Sleep(rand() % sleep + 100);
+}
+
+void DmOperate::MoveTo(int x, int x1, int y, int y1, int sleep) {
+
+	x = Range(x, x + x1);
+	y = Range(y, y + y1);
+
+	//移动
+	this->dm->MoveTo(x, y);
+
+	Sleep(rand() % sleep + 100);
+
+}
+
+//左键弹起
+void DmOperate::LeftUp() {
+	this->dm->LeftUp();
+}
+
 
 //右键
 void DmOperate:: RightClick(int x, int x1, int y, int y1,int sleep) {
@@ -88,6 +135,20 @@ void DmOperate:: RightClick(int x, int x1, int y, int y1,int sleep) {
 }
 
 
+
+void DmOperate::RightDown() {
+
+	this->dm->RightDown();
+	
+	RightUp();
+}
+
+void DmOperate::RightUp() {
+
+	this->dm->RightUp();
+
+
+}
 
 void DmOperate::KeyPress(int key) {
 	SetWindowState(12);
@@ -111,53 +172,25 @@ void DmOperate::SetWindowState(int flag) {
 
 }
 
-long  DmOperate::FindPic(int x1, double y1, double x2, double y2, std::string picName, std::string deltaColor, double sim, int dir, VARIANT* x, VARIANT* y) {
+long  DmOperate::FindPic(double x1, double y1, double x2, double y2, std::string picName, std::string deltaColor, double sim, int dir, VARIANT* x, VARIANT* y) {
 		int width = _ttoi((LPCTSTR)(_bstr_t)this->width);
 		int height = _ttoi((LPCTSTR)(_bstr_t)this->height);
-	return this->dm->FindPic(x1, (int)(height *y1), (int)(width * x2), (int)(height * y2), picName.c_str(), deltaColor.c_str(), sim, dir, x, y);
+	return this->dm->FindPic((int)(width * x1), (int)(height *y1), (int)(width * x2), (int)(height * y2), picName.c_str(), deltaColor.c_str(), sim, dir, x, y);
 	
-
-
 }
-
-
-
-//DWORD WINAPI ThreadProc(LPVOID lpParamter)
-//{
-//	Dnplayer* player = (Dnplayer*)lpParamter;
-//	ThreadOper(player);
-//	return 0;
-//}
-
-
-//void ThreadOper(Dnplayer* player) {
-//
-//	DmOperate* oper = new DmOperate(DMLIST[player->index], player);
-//	oper->BindWindow();
-//	//启动ssr
-//	RunCmdRunApp(DnplayerOperate::GetInstance().RunApp(player->index, "in.zhaoj.shadowsocksr"));
-//	Sleep(5000);
-//	VARIANT vx, vy;
-//	for (int i = 0; i < 10; i++) {
-//		long ret = oper->FindPic(0, 0.1, 1.0, 0.3, "text1.bmp", "000000", 0.9, 0, &vx, &vy);
-//		if (ret != -1) {
-//			int x = _ttoi((LPCTSTR)(_bstr_t)vx);
-//			int y = _ttoi((LPCTSTR)(_bstr_t)vy);
-//			oper->LeftClick(x, 30, y, 20, 1500);
-//			oper->KeyPress(112);
-//			return;
-//		};
-//		Sleep(500);
-//	}
-//	::MessageBox(NULL, L"ssr按钮查找失败", _T("error"), MB_OK);
-//}
-
-//void DmOperate::PlayerOperate() {
-//	//设置随机种子
-//	srand((unsigned)time(0));
-//	/*std::vector<Dnplayer*> playerList = DnplayerOperate::GetInstance().SetPlayerInfo();
-//	for (unsigned int i = 0; i < DMLIST.size(); i++) {
-//		CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ThreadProc, playerList[i], 0, NULL);
-//	}*/
-//
-//}
+	//找字库
+	map<string,int> DmOperate::FindStrFastEx(int x1, double y1, double x2, double y2, std::string colorFormat, std::string color,double sim) {
+	int width = _ttoi((LPCTSTR)(_bstr_t)this->width);
+	int height = _ttoi((LPCTSTR)(_bstr_t)this->height);
+	string  strFast=(char*)this->dm->FindStrFastEx(x1, (int)(height * y1), (int)(width * x2), (int)(height * y2), colorFormat.c_str(), color.c_str(), sim);
+	map<std::string, int> strFastMap;
+	if (strFast!="") {
+		vector<string> strFastList = Split(strFast, "|");
+		vector<string> strFastV=Split(strFastList[0], ",");
+		strFastMap.insert(std::pair<std::string, int>("index", std::stoi(strFastV[0])));
+		strFastMap.insert(std::pair<std::string, int>("x", std::stoi(strFastV[1])));
+		strFastMap.insert(std::pair<std::string, int>("y", std::stoi(strFastV[2])));
+		return strFastMap;
+	}
+	return strFastMap;
+}

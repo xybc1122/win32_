@@ -11,8 +11,9 @@
 #define ON_HOOK                         1017
 #define STAR_MAP_140                    1018
 #define UN_BIND                         1019
-#define IDC_BUTTON1                     1020
 #define GET_DN_INFO                     1020
+#define STOP_THREAD                     1021
+#define START_THREAD                    1023
 
 // Next default values for new objects
 // 
@@ -20,7 +21,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        103
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1021
+#define _APS_NEXT_CONTROL_VALUE         1024
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

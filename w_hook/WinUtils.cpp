@@ -1,11 +1,9 @@
-#include<windows.h>
+#include "WinUtils.h"
 #include <TlHelp32.h>
-#include <iostream>
 #include <ShellAPI.h>
 #include <tlhelp32.h>
 #include <tchar.h>
 #include <atlstr.h>
-
 DWORD FindPid(const char* name) {
 	//1¥¥Ω®øÏ’’
 	HANDLE  hsnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);

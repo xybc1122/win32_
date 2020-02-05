@@ -1,10 +1,10 @@
 ﻿// w_hook.cpp : 定义应用程序的入口点。
 #include"pch.h"
 #include "framework.h"
-#include "ThisMian.h"
+#include "RunExe.h"
 #include <Windows.h>
 #include "resource.h"
-#include "ThisLoad.h"
+#include "WinUtils.h"
 #include <direct.h>
 #include <stdio.h>
 #include"ExeCmd.h"
@@ -14,6 +14,8 @@
 #include"DmOperate.h"
 #include"InitDm.h"
 #include<ctime>
+#include"OnHookOperate.h"
+#include"LodThread.h"
 
 //void HookDll() {
 //	//获取当前目录
@@ -33,12 +35,12 @@
 
 
 
-
 std::vector<string> LODSTRLIST;
 
 //设置大漠操作对象list
 std::vector<DmOperate*> DMOPERATELIST;
 
+std::vector<HANDLE> HTHREAD;
 
 INT_PTR CALLBACK Dlgproc(HWND Arg1, UINT uMsg, WPARAM Arg3, LPARAM Arg4);
 
@@ -58,7 +60,8 @@ INT_PTR CALLBACK Dlgproc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM Arg4) {
 	unsigned int unIndex = 0;
 	DmOperate* bindDmOper;
 	DmOperate* unDmOper;
-
+	OnHookOperate* onHook;
+	HANDLE hTherad;
 	//消息
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -101,6 +104,7 @@ INT_PTR CALLBACK Dlgproc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM Arg4) {
 				bindDmOper = new DmOperate(Init(),DnplayerOperate::GetInstance().SetPlayerInfo(LODSTRLIST[bindIndex]));
 				//设置大漠操作对象以及操作的属性
 				DMOPERATELIST.push_back(bindDmOper);
+				bindDmOper->BindWindow();
 			}
 			::MessageBox(NULL, L"绑定成功", _T("success"), MB_OK);
 			////启动模拟器命令
@@ -120,11 +124,35 @@ INT_PTR CALLBACK Dlgproc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM Arg4) {
 			}
 			break;
 		case STAER_SCRIPT:
-	
-
 			break;
 			//开始挂机
 		case ON_HOOK:
+			if (DMOPERATELIST.size() == 0) {
+				::MessageBox(NULL, L"请先绑定窗口", _T("error"), MB_OK);
+				break;
+			}
+			onHook = new OnHookOperate(DMOPERATELIST[1]);
+			LodThread(onHook);
+			break;
+			//暂停
+		case STOP_THREAD:
+			if (HTHREAD.size()==0) {
+				::MessageBox(NULL, L"没有线程可以暂停", _T("error"), MB_OK);
+				break;
+			}
+			hTherad=HTHREAD[0];
+			//线程挂起
+			SuspendThread(hTherad);
+			break;
+			//开始
+		case START_THREAD:
+			if (HTHREAD.size() == 0) {
+				::MessageBox(NULL, L"没有线程可以开始", _T("error"), MB_OK);
+				break;
+			}
+			//线程唤醒
+			hTherad = HTHREAD[0];
+			ResumeThread(hTherad);
 			break;
 		}	
 		break;

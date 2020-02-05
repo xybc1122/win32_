@@ -27,12 +27,6 @@
     <ClInclude Include="CmdHandler.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ThisLoad.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="ThisMian.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="StringUtils.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -51,6 +45,18 @@
     <ClInclude Include="InitDm.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="OnHookOperate.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="LodThread.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="RunExe.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="WinUtils.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.h">
@@ -62,16 +68,7 @@
     <ClCompile Include="CmdHandler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="ThisLoad.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="ThisMian.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="StringUtils.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Dnplayer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="DnplayerOperate.cpp">
@@ -84,6 +81,18 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="InitDm.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="OnHookOperate.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LodThread.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="RunExe.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="WinUtils.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

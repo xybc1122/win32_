@@ -1,7 +1,4 @@
 #include "CmdHandler.h"
-#include <tchar.h>
-#include<iostream>
-#include<vector>
 using namespace std;
 
 #define EXCEPTIION_STATE_CHECK \
